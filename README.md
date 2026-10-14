@@ -2,6 +2,10 @@
 
 > An ultra-luxury event management website curating bespoke destination weddings, stadium-scale live concerts, and exclusive private celebrations for HNIs, NRIs, and commercial organizers.
 
+[![Live Demo](https://img.shields.io/badge/Demo-Live_Website-gold?style=for-the-badge&logo=vercel)](https://event-management-company-five.vercel.app)
+
+🔗 **Live URL:** [https://event-management-company-five.vercel.app](https://event-management-company-five.vercel.app)
+
 ![Website Preview](https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80)
 
 ---
