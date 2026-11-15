@@ -1,285 +1,754 @@
 /**
- * ASHIRWAD WEDDINGS & EVENTS
- * Client Interaction, Lightbox, Filters, Form Processing & Dynamic UI
+ * ASHIRWAD WEDDINGS & EVENTS — Weddings & Events
+ * Main JavaScript
+ *
+ * Sections:
+ * 1. Sticky Header
+ * 2. Mobile Navigation
+ * 3. Testimonial Tabs
+ * 4. Enquiry Form (Formspree)
+ * 5. Back to Top
+ * 6. Utilities
  */
 
-document.addEventListener('DOMContentLoaded', () => {
-  // 1. Sticky Navigation on Scroll
-  const navbar = document.querySelector('.site-navbar');
-  const backToTopBtn = document.querySelector('.back-to-top-btn');
+/* ============================================================
+   1. STICKY HEADER
+   ============================================================ */
+(function initStickyHeader() {
+  const header = document.getElementById('site-header');
+  if (!header) return;
 
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-      navbar?.classList.add('scrolled');
+  function updateHeader() {
+    if (window.scrollY > 30) {
+      header.classList.add('scrolled');
     } else {
-      navbar?.classList.remove('scrolled');
+      header.classList.remove('scrolled');
+    }
+  }
+
+  window.addEventListener('scroll', updateHeader, { passive: true });
+  updateHeader();
+})();
+
+
+/* ============================================================
+   2. MOBILE NAVIGATION
+   ============================================================ */
+(function initMobileNav() {
+  const toggle   = document.querySelector('.mobile-menu-toggle');
+  const close    = document.querySelector('.mobile-nav-close');
+  const drawer   = document.getElementById('mobile-nav');
+  const backdrop = document.getElementById('mobile-backdrop');
+  const navLinks = drawer ? drawer.querySelectorAll('a') : [];
+
+  if (!toggle || !drawer || !backdrop) return;
+
+  function openNav() {
+    drawer.classList.add('open');
+    backdrop.classList.add('active');
+    drawer.removeAttribute('aria-hidden');
+    toggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeNav() {
+    drawer.classList.remove('open');
+    backdrop.classList.remove('active');
+    drawer.setAttribute('aria-hidden', 'true');
+    toggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  toggle.addEventListener('click', openNav);
+  if (close) close.addEventListener('click', closeNav);
+  backdrop.addEventListener('click', closeNav);
+
+  navLinks.forEach(link => link.addEventListener('click', closeNav));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && drawer.classList.contains('open')) closeNav();
+  });
+})();
+
+
+/* ============================================================
+   3. CURATED DESTINATIONS VISUAL SHOWCASE
+   ============================================================ */
+const DESTINATIONS = [
+  // India (13)
+  {
+    id: 'udaipur',
+    name: 'Udaipur',
+    country: 'Rajasthan, India',
+    region: 'india',
+    categories: ['palace'],
+    vibe: 'Royal Lake Palaces',
+    img: 'https://images.unsplash.com/photo-1596178065887-1198b6148b2b?auto=format&fit=crop&w=800&q=80',
+    desc: "The City of Lakes — regal lakeside mandaps, majestic palace courtyards, and timeless Rajput hospitality."
+  },
+  {
+    id: 'jaipur',
+    name: 'Jaipur',
+    country: 'Rajasthan, India',
+    region: 'india',
+    categories: ['palace'],
+    vibe: 'Forts & Royal Havelis',
+    img: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80',
+    desc: "The Pink City — opulent fort courtyards, heritage havelis, and grand celebrations steeped in royal Rajasthani pageantry."
+  },
+  {
+    id: 'goa',
+    name: 'Goa',
+    country: 'India',
+    region: 'india',
+    categories: ['coastal'],
+    vibe: 'Sunset Beach & Heritage',
+    img: 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=80',
+    desc: "Golden sands, sunset beachfront pheras, private Portuguese estates, and vibrant multi-day coastal soirees."
+  },
+  {
+    id: 'kerala',
+    name: 'Kerala',
+    country: 'India',
+    region: 'india',
+    categories: ['coastal'],
+    vibe: 'Emerald Backwaters',
+    img: 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80',
+    desc: "God's Own Country — tranquil palm-fringed backwaters, luxury tropical resorts, and lush, serene landscapes."
+  },
+  {
+    id: 'hyderabad',
+    name: 'Hyderabad',
+    country: 'Telangana, India',
+    region: 'india',
+    categories: ['metro'],
+    vibe: 'Leonia Destination & Banquets',
+    img: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=800&q=80',
+    desc: "The City of Pearls — hosted grand guest hospitality, artist management, and turnkey logistics at Leonia Holistic Destination and royal venues."
+  },
+  {
+    id: 'bengaluru',
+    name: 'Bengaluru',
+    country: 'Karnataka, India',
+    region: 'india',
+    categories: ['metro'],
+    vibe: 'Garden Estates & Luxury',
+    img: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80',
+    desc: "Silicon City — premier five-star luxury ballrooms, sprawling palace grounds, and bespoke metropolitan galas."
+  },
+  {
+    id: 'mumbai',
+    name: 'Mumbai',
+    country: 'Maharashtra, India',
+    region: 'india',
+    categories: ['coastal'],
+    vibe: 'Seafront Glamour',
+    img: 'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=800&q=80',
+    desc: "India's cosmopolitan capital — iconic seafront hotels, grand heritage ballrooms, and high-profile private celebrations."
+  },
+  {
+    id: 'rishikesh',
+    name: 'Rishikesh',
+    country: 'Uttarakhand, India',
+    region: 'india',
+    categories: ['hills'],
+    vibe: 'Sacred Himalayan Ganges',
+    img: 'https://images.unsplash.com/photo-1600100397608-f010f443b793?auto=format&fit=crop&w=800&q=80',
+    desc: "Sacred Himalayan town on the holy Ganges — tranquil, spiritual, and intimate riverside wedding mandaps."
+  },
+  {
+    id: 'mussoorie',
+    name: 'Mussoorie',
+    country: 'Uttarakhand, India',
+    region: 'india',
+    categories: ['hills'],
+    vibe: 'Misty Mountain Hills',
+    img: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80',
+    desc: "Queen of the Hills — misty mountain panoramas, crisp highland weather, and colonial heritage manor venues."
+  },
+  {
+    id: 'surat',
+    name: 'Surat',
+    country: 'Gujarat, India',
+    region: 'india',
+    categories: ['metro'],
+    vibe: 'Opulent Banquets',
+    img: 'https://images.unsplash.com/photo-1545232979-8bf68ee9b1af?auto=format&fit=crop&w=800&q=80',
+    desc: "Vibrant cultural hub of Gujarat — grand multi-day community celebrations, bespoke catering, and lavish setups."
+  },
+  {
+    id: 'ahmedabad',
+    name: 'Ahmedabad',
+    country: 'Gujarat, India',
+    region: 'india',
+    categories: ['palace'],
+    vibe: 'Heritage Lawns',
+    img: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80',
+    desc: "Cultural heart of Gujarat — sprawling farmhouse lawns, rich heritage architecture, and grand traditional weddings."
+  },
+  {
+    id: 'coorg',
+    name: 'Coorg',
+    country: 'Karnataka, India',
+    region: 'india',
+    categories: ['hills'],
+    vibe: 'Coffee Plantation Retreats',
+    img: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80',
+    desc: "The Scotland of India — lush private coffee estates, serene misty mornings, and intimate nature soirees."
+  },
+  {
+    id: 'bidar',
+    name: 'Bidar',
+    country: 'Karnataka, India',
+    region: 'india',
+    categories: ['palace'],
+    vibe: 'Deccan Citadel Traditions',
+    img: 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=800&q=80',
+    desc: "Historic Deccan citadel — rich cultural legacy, grand multi-day family celebrations, and customized hospitality."
+  },
+
+  // International (3)
+  {
+    id: 'bahrain',
+    name: 'Bahrain',
+    country: 'Bahrain',
+    region: 'international',
+    categories: ['international'],
+    vibe: 'Arabian Gulf Luxury',
+    img: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80',
+    desc: "Arabian Gulf jewel — luxury five-star island resorts, beachfront banquets, and seamless cross-border NRI event production."
+  },
+  {
+    id: 'thailand',
+    name: 'Thailand',
+    country: 'Thailand',
+    region: 'international',
+    categories: ['coastal', 'international'],
+    vibe: 'Tropical Beachfront Buyouts',
+    img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
+    desc: "Tropical paradise — Phuket & Hua Hin resort buyouts, turquoise oceanfront mandaps, and sunset celebration galas."
+  },
+  {
+    id: 'nepal',
+    name: 'Nepal',
+    country: 'Nepal',
+    region: 'international',
+    categories: ['hills', 'international'],
+    vibe: 'Himalayan Panoramas',
+    img: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80',
+    desc: "Kathmandu valley heritage palaces, serene Himalayan mountain panoramas, and sacred wedding rituals."
+  }
+];
+
+(function initDestinationsShowcase() {
+  const grid = document.getElementById('dest-grid');
+  const tabs = document.querySelectorAll('.dest-tab');
+  const destInput = document.getElementById('destination');
+
+  if (!grid) return;
+
+  function render(filter) {
+    const list = filter === 'all'
+      ? DESTINATIONS
+      : DESTINATIONS.filter(d => {
+          if (filter === 'international') return d.region === 'international' || d.categories?.includes('international');
+          if (filter === 'palace') return d.categories?.includes('palace');
+          if (filter === 'coastal') return d.categories?.includes('coastal');
+          if (filter === 'hills') return d.categories?.includes('hills');
+          if (filter === 'metro') return d.categories?.includes('metro');
+          return d.region === filter || d.categories?.includes(filter);
+        });
+
+    grid.innerHTML = list.map(d => `
+      <article class="dest-card" data-id="${d.id}">
+        <div class="dest-card-media">
+          <img src="${d.img}" alt="${d.name} Wedding & Event Destination" class="dest-card-img" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80';">
+          <div class="dest-card-badges">
+            <span class="dest-card-badge">${d.vibe}</span>
+            <span class="dest-card-flag">${d.region === 'international' ? 'International' : 'India'}</span>
+          </div>
+        </div>
+        <div class="dest-card-body">
+          <div class="dest-card-header">
+            <h3 class="dest-card-name">${d.name}</h3>
+            <span class="dest-card-vibe">${d.country}</span>
+          </div>
+          <p class="dest-card-desc">${d.desc}</p>
+          <a href="#contact" class="dest-card-action" data-dest="${d.name}" aria-label="Plan your event in ${d.name}">
+            <span>Inquire For This Destination</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </article>
+    `).join('');
+
+    // Pre-fill destination field when clicking "Inquire For This Destination"
+    grid.querySelectorAll('.dest-card-action').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const place = btn.getAttribute('data-dest');
+        if (destInput && place) {
+          destInput.value = place;
+          destInput.focus();
+        }
+      });
+    });
+  }
+
+  // Filter tabs
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      const filter = tab.getAttribute('data-filter') || 'all';
+      render(filter);
+    });
+  });
+
+  // Initial render
+  render('all');
+})();
+
+
+/* ============================================================
+   4. TESTIMONIAL TABS
+   ============================================================ */
+(function initTestimonialTabs() {
+  const tabs    = document.querySelectorAll('.testimonial-tab');
+  const panels  = document.querySelectorAll('.testimonials-panel');
+
+  if (!tabs.length) return;
+
+  tabs.forEach((tab, idx) => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+      });
+      panels.forEach(p => {
+        p.classList.add('hidden');
+        p.setAttribute('aria-hidden', 'true');
+      });
+
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+
+      const panel = panels[idx];
+      if (panel) {
+        panel.classList.remove('hidden');
+        panel.removeAttribute('aria-hidden');
+      }
+    });
+  });
+})();
+
+
+/* ============================================================
+   7. ENQUIRY FORM (FORMSPREE)
+   ============================================================ */
+(function initEnquiryForm() {
+  const form       = document.getElementById('enquiry-form');
+  const submitBtn  = document.getElementById('submit-btn');
+  const statusEl   = document.getElementById('form-status');
+
+  if (!form) return;
+
+  // Field-level validation rules
+  const rules = {
+    name:       { required: true, minLength: 2, label: 'Name' },
+    email:      { required: true, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, label: 'Email' },
+    event_type: { required: true, label: 'Event type' },
+  };
+
+  function validateField(input) {
+    const rule = rules[input.name];
+    const err  = input.closest('.form-group')?.querySelector('.form-error');
+
+    if (!rule) return true;
+
+    const val = input.value.trim();
+
+    if (rule.required && !val) {
+      setFieldError(input, err, `${rule.label} is required`);
+      return false;
     }
 
-    if (window.scrollY > 400) {
-      backToTopBtn?.classList.add('visible');
-    } else {
-      backToTopBtn?.classList.remove('visible');
+    if (rule.minLength && val.length < rule.minLength) {
+      setFieldError(input, err, `${rule.label} must be at least ${rule.minLength} characters`);
+      return false;
+    }
+
+    if (rule.pattern && !rule.pattern.test(val)) {
+      setFieldError(input, err, `Please enter a valid ${rule.label.toLowerCase()}`);
+      return false;
+    }
+
+    clearFieldError(input, err);
+    return true;
+  }
+
+  function setFieldError(input, errEl, msg) {
+    input.classList.add('has-error');
+    input.classList.remove('is-valid');
+    if (errEl) errEl.textContent = msg;
+  }
+
+  function clearFieldError(input, errEl) {
+    input.classList.remove('has-error');
+    input.classList.add('is-valid');
+    if (errEl) errEl.textContent = '';
+  }
+
+  // Live validation on blur
+  Object.keys(rules).forEach(name => {
+    const input = form.elements[name];
+    if (input) {
+      input.addEventListener('blur', () => validateField(input));
+      input.addEventListener('input', () => {
+        if (input.classList.contains('has-error')) validateField(input);
+      });
     }
   });
 
-  // Back to top click
-  backToTopBtn?.addEventListener('click', () => {
+  function setLoadingState(loading) {
+    const btnText = submitBtn.querySelector('.submit-text');
+    const btnLoad = submitBtn.querySelector('.submit-loading');
+
+    submitBtn.disabled = loading;
+    if (loading) {
+      btnText.hidden = true;
+      btnLoad.hidden = false;
+    } else {
+      btnText.hidden = false;
+      btnLoad.hidden = true;
+    }
+  }
+
+  function showStatus(type, msg) {
+    statusEl.className = `form-status ${type}`;
+    statusEl.textContent = msg;
+    statusEl.style.display = 'flex';
+    statusEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function hideStatus() {
+    statusEl.style.display = 'none';
+    statusEl.className = 'form-status';
+  }
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    hideStatus();
+
+    // Validate all required fields
+    let isValid = true;
+    Object.keys(rules).forEach(name => {
+      const input = form.elements[name];
+      if (input && !validateField(input)) isValid = false;
+    });
+
+    if (!isValid) {
+      showStatus('error', 'Please fill in all required fields correctly.');
+      return;
+    }
+
+    // Build WhatsApp pre-filled message URL with all submitted data
+    function buildWhatsAppUrl() {
+      const nameInput = form.elements['name'] || form.elements['fullname'] || document.getElementById('name');
+      const name = (nameInput && nameInput.value.trim()) || '';
+      const email = (form.elements['email'] && form.elements['email'].value.trim()) || '';
+      const phone = (form.elements['phone'] && form.elements['phone'].value.trim()) || '';
+      const eventType = (form.elements['event_type'] && form.elements['event_type'].value) || '';
+      const destination = (form.elements['destination'] && form.elements['destination'].value.trim()) || '';
+      const eventDate = (form.elements['event_date'] && form.elements['event_date'].value.trim()) || '';
+      const guestCount = (form.elements['guest_count'] && form.elements['guest_count'].value) || '';
+      const message = (form.elements['message'] && form.elements['message'].value.trim()) || '';
+
+      const lines = [
+        '*New Event Enquiry — Ashirwad Weddings & Events*',
+        '',
+        '*Name:* ' + (name || 'Not provided'),
+        '*Phone:* ' + (phone || 'Not provided'),
+        '*Email:* ' + (email || 'Not provided'),
+        '*Event Type:* ' + (eventType || 'Not specified'),
+        '*Preferred Destination:* ' + (destination || 'Not specified'),
+        '*Approx Date:* ' + (eventDate || 'Not specified'),
+        '*Guest Count:* ' + (guestCount || 'Not specified'),
+        '*Details:* ' + (message || 'Not specified')
+      ];
+
+      return 'https://wa.me/919920355344?text=' + encodeURIComponent(lines.join('\n'));
+    }
+
+    function showWhatsAppFallback(reasonText) {
+      const waUrl = buildWhatsAppUrl();
+      statusEl.className = 'form-status form-status-fallback';
+      statusEl.innerHTML = `
+        <div class="form-fallback-card">
+          <div class="form-fallback-header">
+            <span class="fallback-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+              Enquiry Details Saved
+            </span>
+            <h4 class="fallback-heading">Connect Instantly on WhatsApp</h4>
+          </div>
+          <p class="fallback-desc">
+            ${reasonText || "To guarantee your enquiry is answered immediately without any email latency, tap below to chat directly with our planning team on WhatsApp:"}
+          </p>
+          <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-wa-fallback">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.301-.15-1.78-.878-2.056-.978-.276-.1-.476-.15-.676.15-.2.301-.776.978-.952 1.18-.175.2-.351.225-.652.075-.301-.15-1.27-.468-2.42-1.493-.895-.798-1.5-1.784-1.676-2.085-.175-.301-.019-.464.132-.614.136-.134.301-.35.452-.525.15-.175.2-.3.301-.5.1-.2.05-.375-.025-.525s-.677-1.632-.927-2.235c-.244-.588-.492-.508-.676-.518-.175-.008-.376-.01-.577-.01-.2 0-.527.075-.802.375-.276.301-1.054 1.03-1.054 2.513s1.079 2.912 1.23 3.113c.15.2 2.123 3.242 5.143 4.547.718.31 1.279.496 1.716.635.722.23 1.378.197 1.897.12.578-.088 1.78-.727 2.03-1.428.25-.702.25-1.303.175-1.428-.075-.125-.276-.2-.577-.35zM12.042 21.75c-1.802 0-3.567-.47-5.127-1.36l-.367-.212-3.808 1 1.018-3.712-.236-.375A9.704 9.704 0 0 1 2.25 12.042C2.25 6.643 6.643 2.25 12.042 2.25s9.792 4.393 9.792 9.792-4.393 9.708-9.792 9.708zm0-17.917c-4.509 0-8.175 3.666-8.175 8.209 0 1.583.454 3.125 1.317 4.458l.192.3-.617 2.25 2.308-.608.292.175c1.283.766 2.766 1.175 4.283 1.175 4.509 0 8.175-3.667 8.175-8.209s-3.666-7.75-8.175-7.75z"/></svg>
+            <span>Send Enquiry via WhatsApp (+91 99203 55344) &rarr;</span>
+          </a>
+        </div>
+      `;
+      statusEl.style.display = 'block';
+      statusEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    setLoadingState(true);
+
+    try {
+      const data     = new FormData(form);
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body:   data,
+        headers: { Accept: 'application/json' },
+      });
+
+      if (response.ok) {
+        const waUrl = buildWhatsAppUrl();
+        const nameInput = form.elements['name'] || form.elements['fullname'] || document.getElementById('name');
+        const clientName = (nameInput && nameInput.value.trim()) || '';
+        const eventType = (form.elements['event_type'] && form.elements['event_type'].value) || 'your event';
+
+        // Hide form inputs so the Thank You card takes center stage right on the website
+        const formElementsToHide = form.querySelectorAll('.form-row, .form-group, #submit-btn, .form-direct-wa');
+        formElementsToHide.forEach(el => el.style.display = 'none');
+
+        statusEl.className = 'form-status form-status-success';
+        const safeClientName = clientName.replace(/[<>&"']/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#39;' }[c]));
+        const safeEventType = eventType.replace(/[<>&"']/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#39;' }[c]));
+        const safeDest = ((form.elements['destination'] && form.elements['destination'].value.trim()) || 'Curated Destinations').replace(/[<>&"']/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#39;' }[c]));
+        const safeDate = ((form.elements['event_date'] && form.elements['event_date'].value.trim()) || 'Dates to be aligned').replace(/[<>&"']/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#39;' }[c]));
+        const safeGuests = ((form.elements['guest_count'] && form.elements['guest_count'].value) || '').replace(/[<>&"']/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#39;' }[c]));
+
+        statusEl.innerHTML = `
+          <div class="form-success-card-full">
+            <div class="thankyou-crest" aria-hidden="true">
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="30" stroke="#C69D59" stroke-width="1.2" stroke-dasharray="2 3"/>
+                <circle cx="32" cy="32" r="26" stroke="#C69D59" stroke-width="1.5"/>
+                <path d="M32 14c2.5 5.5 6 9.5 6 15 0 6.5-6 11-6 11s-6-4.5-6-11c0-5.5 3.5-9.5 6-15z" fill="#C69D59" fill-opacity="0.2" stroke="#C69D59" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M22 28c4 2 7 6 7 11 0 4-3 7-7 7s-7-3-7-7c0-5 3.5-9 7-11z" fill="#C69D59" fill-opacity="0.15" stroke="#C69D59" stroke-width="1.2"/>
+                <path d="M42 28c-4 2-7 6-7 11 0 4 3 7 7 7s7-3 7-7c0-5-3.5-9-7-11z" fill="#C69D59" fill-opacity="0.15" stroke="#C69D59" stroke-width="1.2"/>
+                <circle cx="32" cy="36" r="2.5" fill="#6B1F2F"/>
+              </svg>
+            </div>
+
+            <p class="thankyou-eyebrow">ASHIRWAD PRIVATE CONCIERGE</p>
+            <h3 class="thankyou-title">Celebration Details Received</h3>
+            <p class="thankyou-greeting">${safeClientName ? 'Namaste, ' + safeClientName : 'Namaste'}</p>
+
+            <p class="thankyou-lead">
+              Thank you for entrusting your celebration to <strong>Ashirwad Weddings &amp; Events</strong>. Our senior wedding planning team will review your celebration vision and connect with you within 24 hours.
+            </p>
+
+            <div class="thankyou-receipt">
+              <div class="receipt-item">
+                <span class="receipt-label">Event Vision</span>
+                <span class="receipt-val">${safeEventType}</span>
+              </div>
+              <div class="receipt-item">
+                <span class="receipt-label">Preferred Destination</span>
+                <span class="receipt-val">${safeDest}</span>
+              </div>
+              <div class="receipt-item">
+                <span class="receipt-label">Target Date</span>
+                <span class="receipt-val">${safeDate}</span>
+              </div>
+              <div class="receipt-item">
+                <span class="receipt-label">Guest Scale</span>
+                <span class="receipt-val">${safeGuests ? safeGuests + ' Guests' : 'To be confirmed'}</span>
+              </div>
+            </div>
+
+            <div class="thankyou-steps">
+              <div class="step-box">
+                <span class="step-num">01</span>
+                <div class="step-text">
+                  <strong>Vision Review</strong>
+                  <p>Our team aligns dates, guest scale &amp; logistics.</p>
+                </div>
+              </div>
+              <div class="step-box">
+                <span class="step-num">02</span>
+                <div class="step-text">
+                  <strong>Private Discovery Call</strong>
+                  <p>A 1-on-1 walkthrough of your preferences &amp; aesthetic.</p>
+                </div>
+              </div>
+              <div class="step-box">
+                <span class="step-num">03</span>
+                <div class="step-text">
+                  <strong>Curated Deck</strong>
+                  <p>Bespoke proposals, moodboards &amp; venue options.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="success-actions">
+              <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-wa-fallback">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.301-.15-1.78-.878-2.056-.978-.276-.1-.476-.15-.676.15-.2.301-.776.978-.952 1.18-.175.2-.351.225-.652.075-.301-.15-1.27-.468-2.42-1.493-.895-.798-1.5-1.784-1.676-2.085-.175-.301-.019-.464.132-.614.136-.134.301-.35.452-.525.15-.175.2-.3.301-.5.1-.2.05-.375-.025-.525s-.677-1.632-.927-2.235c-.244-.588-.492-.508-.676-.518-.175-.008-.376-.01-.577-.01-.2 0-.527.075-.802.375-.276.301-1.054 1.03-1.054 2.513s1.079 2.912 1.23 3.113c.15.2 2.123 3.242 5.143 4.547.718.31 1.279.496 1.716.635.722.23 1.378.197 1.897.12.578-.088 1.78-.727 2.03-1.428.25-.702.25-1.303.175-1.428-.075-.125-.276-.2-.577-.35zM12.042 21.75c-1.802 0-3.567-.47-5.127-1.36l-.367-.212-3.808 1 1.018-3.712-.236-.375A9.704 9.704 0 0 1 2.25 12.042C2.25 6.643 6.643 2.25 12.042 2.25s9.792 4.393 9.792 9.792-4.393 9.708-9.792 9.708zm0-17.917c-4.509 0-8.175 3.666-8.175 8.209 0 1.583.454 3.125 1.317 4.458l.192.3-.617 2.25 2.308-.608.292.175c1.283.766 2.766 1.175 4.283 1.175 4.509 0 8.175-3.667 8.175-8.209s-3.666-7.75-8.175-7.75z"/></svg>
+                <span>Instant WhatsApp Connect</span>
+              </a>
+              <button type="button" class="btn btn-reset-inquiry" id="btn-reset-form">
+                Send Another Enquiry
+              </button>
+            </div>
+          </div>
+        `;
+        statusEl.style.display = 'block';
+        statusEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+        document.getElementById('btn-reset-form')?.addEventListener('click', () => {
+          form.reset();
+          formElementsToHide.forEach(el => el.style.display = '');
+          statusEl.style.display = 'none';
+          statusEl.innerHTML = '';
+          form.querySelectorAll('.form-input').forEach(el => el.classList.remove('has-error', 'is-valid'));
+        });
+      } else {
+        // Formspree not yet verified or returned an error — trigger WhatsApp fallback with pre-filled inputs
+        showWhatsAppFallback("Our email server is currently awaiting final domain confirmation. Don't worry — your enquiry details are saved! Click below to send directly via WhatsApp:");
+      }
+    } catch {
+      // Network or cross-origin issue — trigger WhatsApp fallback with pre-filled inputs
+      showWhatsAppFallback("Network glitch prevented direct email transmission. We've preserved all your event details — tap below to send them straight to WhatsApp:");
+    } finally {
+      setLoadingState(false);
+    }
+  });
+})();
+
+/* ============================================================
+   8. BACK TO TOP
+   ============================================================ */
+(function initBackToTop() {
+  const btn = document.getElementById('back-to-top');
+  if (!btn) return;
+
+  function updateVisibility() {
+    if (window.scrollY > 500) {
+      btn.removeAttribute('hidden');
+    } else {
+      btn.setAttribute('hidden', '');
+    }
+  }
+
+  window.addEventListener('scroll', updateVisibility, { passive: true });
+
+  btn.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  // 2. Mobile Drawer Navigation
-  const mobileToggle = document.querySelector('.mobile-nav-toggle');
-  const mobileDrawer = document.querySelector('.mobile-nav-drawer');
-  const drawerClose = document.querySelector('.mobile-drawer-close');
-  const drawerBackdrop = document.querySelector('.mobile-drawer-backdrop');
-  const mobileLinks = document.querySelectorAll('.mobile-links a');
+  updateVisibility();
+})();
 
-  function openDrawer() {
-    mobileDrawer?.classList.add('open');
-    drawerBackdrop?.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
 
-  function closeDrawer() {
-    mobileDrawer?.classList.remove('open');
-    drawerBackdrop?.classList.remove('active');
-    document.body.style.overflow = '';
-  }
+/* ============================================================
+   9. FOOTER YEAR
+   ============================================================ */
+(function updateFooterYear() {
+  const el = document.getElementById('footer-year');
+  if (el) el.textContent = new Date().getFullYear();
+})();
 
-  mobileToggle?.addEventListener('click', openDrawer);
-  drawerClose?.addEventListener('click', closeDrawer);
-  drawerBackdrop?.addEventListener('click', closeDrawer);
-  mobileLinks.forEach(link => link.addEventListener('click', closeDrawer));
 
-  // 3. Portfolio Category Filtering
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const portfolioItems = document.querySelectorAll('.portfolio-item');
+/* ============================================================
+   10. FAQ ACCORDION
+   ============================================================ */
+(function initFaqAccordion() {
+  const accordion = document.getElementById('faq-accordion');
+  if (!accordion) return;
 
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+  const items = accordion.querySelectorAll('.faq-item');
 
-      const filterValue = btn.getAttribute('data-filter');
-
-      portfolioItems.forEach(item => {
-        const itemCategory = item.getAttribute('data-category');
-        if (filterValue === 'all' || itemCategory === filterValue) {
-          item.style.display = 'block';
-          item.style.animation = 'fadeIn 0.4s ease';
-        } else {
-          item.style.display = 'none';
-        }
-      });
-    });
-  });
-
-  // 4. Fullscreen Portfolio Lightbox
-  const lightboxModal = document.querySelector('.lightbox-modal');
-  const lightboxImg = document.querySelector('.lightbox-media img');
-  const lightboxTitle = document.querySelector('.lightbox-title');
-  const lightboxTag = document.querySelector('.lightbox-tag');
-  const lightboxDesc = document.querySelector('.lightbox-desc');
-  const lightboxLocation = document.querySelector('#lightbox-spec-location');
-  const lightboxGuests = document.querySelector('#lightbox-spec-guests');
-  const lightboxCloseBtn = document.querySelector('.lightbox-close-btn');
-  const lightboxInquireBtn = document.querySelector('.lightbox-inquire-btn');
-
-  portfolioItems.forEach(item => {
-    item.addEventListener('click', () => {
-      const img = item.querySelector('img')?.getAttribute('src') || '';
-      const title = item.querySelector('.portfolio-item-title')?.textContent || '';
-      const tag = item.querySelector('.portfolio-category-tag')?.textContent || '';
-      const location = item.getAttribute('data-location') || 'Exclusive Venue';
-      const guests = item.getAttribute('data-guests') || 'Bespoke Attendance';
-      const desc = item.getAttribute('data-desc') || 'A masterfully curated celebration orchestrated with precision and aesthetic magnificence by Ashirwad Weddings & Events.';
-      const categoryType = item.getAttribute('data-category') || '';
-
-      if (lightboxImg) lightboxImg.src = img;
-      if (lightboxTitle) lightboxTitle.textContent = title;
-      if (lightboxTag) lightboxTag.textContent = tag;
-      if (lightboxDesc) lightboxDesc.textContent = desc;
-      if (lightboxLocation) lightboxLocation.textContent = location;
-      if (lightboxGuests) lightboxGuests.textContent = guests;
-
-      // When clicking inquire from lightbox, pre-fill event type
-      if (lightboxInquireBtn) {
-        lightboxInquireBtn.onclick = () => {
-          closeLightbox();
-          const eventTypeSelect = document.getElementById('event-type');
-          if (eventTypeSelect && categoryType) {
-            eventTypeSelect.value = categoryType;
-          }
-          const formElement = document.getElementById('inquire');
-          formElement?.scrollIntoView({ behavior: 'smooth' });
-        };
-      }
-
-      openLightbox();
-    });
-  });
-
-  function openLightbox() {
-    lightboxModal?.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeLightbox() {
-    lightboxModal?.classList.remove('active');
-    document.body.style.overflow = '';
-  }
-
-  lightboxCloseBtn?.addEventListener('click', closeLightbox);
-  lightboxModal?.addEventListener('click', (e) => {
-    if (e.target === lightboxModal) closeLightbox();
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && lightboxModal?.classList.contains('active')) {
-      closeLightbox();
-    }
-  });
-
-  // 5. Testimonial Slider
-  const testimonialCards = document.querySelectorAll('.testimonial-card-single');
-  const prevBtn = document.querySelector('.testimonial-arrow-prev');
-  const nextBtn = document.querySelector('.testimonial-arrow-next');
-  const dotsContainer = document.querySelector('.testimonial-dots');
-  let currentTestimonialIndex = 0;
-  let testimonialInterval = null;
-
-  if (testimonialCards.length > 0 && dotsContainer) {
-    // Generate dots
-    testimonialCards.forEach((_, idx) => {
-      const dot = document.createElement('div');
-      dot.classList.add('testimonial-dot');
-      if (idx === 0) dot.classList.add('active');
-      dot.addEventListener('click', () => showTestimonial(idx));
-      dotsContainer.appendChild(dot);
-    });
-
-    const dots = document.querySelectorAll('.testimonial-dot');
-
-    function showTestimonial(index) {
-      testimonialCards.forEach(card => card.classList.remove('active'));
-      dots.forEach(d => d.classList.remove('active'));
-
-      currentTestimonialIndex = (index + testimonialCards.length) % testimonialCards.length;
-      testimonialCards[currentTestimonialIndex].classList.add('active');
-      dots[currentTestimonialIndex].classList.add('active');
-    }
-
-    prevBtn?.addEventListener('click', () => {
-      showTestimonial(currentTestimonialIndex - 1);
-      resetAutoPlay();
-    });
-
-    nextBtn?.addEventListener('click', () => {
-      showTestimonial(currentTestimonialIndex + 1);
-      resetAutoPlay();
-    });
-
-    function startAutoPlay() {
-      testimonialInterval = setInterval(() => {
-        showTestimonial(currentTestimonialIndex + 1);
-      }, 7000);
-    }
-
-    function resetAutoPlay() {
-      clearInterval(testimonialInterval);
-      startAutoPlay();
-    }
-
-    startAutoPlay();
-  }
-
-  // 6. Interactive FAQ Accordion
-  const faqItems = document.querySelectorAll('.faq-item');
-
-  faqItems.forEach(item => {
+  items.forEach(item => {
     const questionBtn = item.querySelector('.faq-question');
     const answer = item.querySelector('.faq-answer');
+    const icon = item.querySelector('.faq-icon');
 
-    questionBtn?.addEventListener('click', () => {
-      const isActive = item.classList.contains('active');
+    if (!questionBtn || !answer) return;
 
-      // Close all other FAQs
-      faqItems.forEach(otherItem => {
+    questionBtn.addEventListener('click', () => {
+      const isExpanded = questionBtn.getAttribute('aria-expanded') === 'true';
+
+      // Close all other items for clean single-open accordion feel
+      items.forEach(otherItem => {
         if (otherItem !== item) {
           otherItem.classList.remove('active');
-          const otherAnswer = otherItem.querySelector('.faq-answer');
-          if (otherAnswer) otherAnswer.style.maxHeight = null;
+          const otherBtn = otherItem.querySelector('.faq-question');
+          const otherAns = otherItem.querySelector('.faq-answer');
+          const otherIcon = otherItem.querySelector('.faq-icon');
+          if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+          if (otherAns) otherAns.setAttribute('hidden', '');
+          if (otherIcon) otherIcon.innerHTML = '&#43;';
         }
       });
 
-      // Toggle current
-      if (isActive) {
+      // Toggle current item
+      if (isExpanded) {
         item.classList.remove('active');
-        if (answer) answer.style.maxHeight = null;
+        questionBtn.setAttribute('aria-expanded', 'false');
+        answer.setAttribute('hidden', '');
+        if (icon) icon.innerHTML = '&#43;';
       } else {
         item.classList.add('active');
-        if (answer) answer.style.maxHeight = answer.scrollHeight + 'px';
+        questionBtn.setAttribute('aria-expanded', 'true');
+        answer.removeAttribute('hidden');
+        if (icon) icon.innerHTML = '&minus;';
       }
     });
   });
+})();
 
-  // 7. VIP Consultation & Lead Generation Form
-  const inquiryForm = document.getElementById('consultation-form');
-  const successBox = document.getElementById('form-success-box');
-  const waQuickAction = document.getElementById('wa-direct-action');
 
-  inquiryForm?.addEventListener('submit', (e) => {
-    e.preventDefault();
+/* ============================================================
+   11. SCROLL REVEAL (INTERSECTION OBSERVER)
+   ============================================================ */
+(function initScrollReveal() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    const name = document.getElementById('client-name')?.value.trim() || '';
-    const phone = document.getElementById('client-phone')?.value.trim() || '';
-    const email = document.getElementById('client-email')?.value.trim() || '';
-    const eventType = document.getElementById('event-type')?.value || 'Not Specified';
-    const eventDate = document.getElementById('event-date')?.value || 'Date TBD';
-    const eventLocation = document.getElementById('event-location')?.value.trim() || 'Location TBD';
-    const guestCount = document.getElementById('guest-count')?.value || 'Unspecified';
-    const budgetTier = document.getElementById('budget-tier')?.value || 'Luxury Tier';
-    const contactMode = document.querySelector('input[name="contact-mode"]:checked')?.value || 'WhatsApp';
-    const notes = document.getElementById('event-notes')?.value.trim() || 'None provided';
+  const revealElements = document.querySelectorAll(
+    '.service-card, .destination-card, .testimonial-card, .video-testimonial-card, .about-media, .about-text, .story-portrait, .story-content, .faq-item, .contact-info, .enquiry-form'
+  );
 
-    // Format WhatsApp message
-    const formattedMessage = encodeURIComponent(
-      `*VIP Consultation Request — Ashirwad Weddings & Events*\n\n` +
-      `👤 *Name:* ${name}\n` +
-      `📞 *Phone:* ${phone}\n` +
-      `📧 *Email:* ${email}\n` +
-      `✨ *Event Type:* ${eventType}\n` +
-      `📅 *Tentative Date:* ${eventDate}\n` +
-      `📍 *Destination/City:* ${eventLocation}\n` +
-      `👥 *Guest Count:* ${guestCount}\n` +
-      `💎 *Budget Tier:* ${budgetTier}\n` +
-      `📲 *Preferred Contact Mode:* ${contactMode}\n` +
-      `📝 *Vision Notes:* ${notes}\n\n` +
-      `_Looking forward to orchestrating an unforgettable celebration._`
-    );
+  if (!revealElements.length) return;
 
-    // WhatsApp Direct URL (Ashirwad Event Concierge)
-    const whatsappUrl = `https://wa.me/919876543210?text=${formattedMessage}`;
+  revealElements.forEach(el => el.classList.add('reveal'));
 
-    // Display in-page confirmation
-    if (successBox) {
-      successBox.classList.add('show');
-      inquiryForm.style.display = 'none';
+  if (!('IntersectionObserver' in window)) {
+    revealElements.forEach(el => el.classList.add('is-visible'));
+    return;
+  }
 
-      if (waQuickAction) {
-        waQuickAction.href = whatsappUrl;
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        obs.unobserve(entry.target);
       }
-    }
-
-    // Automatically trigger WhatsApp tab after brief delay for seamless concierge experience
-    setTimeout(() => {
-      window.open(whatsappUrl, '_blank');
-    }, 1200);
+    });
+  }, {
+    rootMargin: '0px 0px -40px 0px',
+    threshold: 0.12
   });
 
-  // 8. Update Current Year in Footer
-  const yearEl = document.getElementById('current-year');
-  if (yearEl) {
-    yearEl.textContent = new Date().getFullYear();
-  }
-});
+  revealElements.forEach(el => observer.observe(el));
+})();
