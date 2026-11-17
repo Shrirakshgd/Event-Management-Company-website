@@ -75,7 +75,7 @@
    3. CURATED DESTINATIONS VISUAL SHOWCASE
    ============================================================ */
 const DESTINATIONS = [
-  // India (13)
+  // India (12)
   {
     id: 'udaipur',
     name: 'Udaipur',
@@ -84,7 +84,8 @@ const DESTINATIONS = [
     categories: ['palace'],
     vibe: 'Royal Lake Palaces',
     img: 'https://images.unsplash.com/photo-1596178065887-1198b6148b2b?auto=format&fit=crop&w=800&q=80',
-    desc: "The City of Lakes — regal lakeside mandaps, majestic palace courtyards, and timeless Rajput hospitality."
+    desc: "The City of Lakes — regal lakeside mandaps, majestic palace courtyards, and timeless Rajput hospitality.",
+    venues: ['The Oberoi Udaivilas', 'Mementos by ITC Hotels']
   },
   {
     id: 'jaipur',
@@ -94,7 +95,8 @@ const DESTINATIONS = [
     categories: ['palace'],
     vibe: 'Forts & Royal Havelis',
     img: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80',
-    desc: "The Pink City — opulent fort courtyards, heritage havelis, and grand celebrations steeped in royal Rajasthani pageantry."
+    desc: "The Pink City — opulent fort courtyards, heritage havelis, and grand celebrations steeped in royal Rajasthani pageantry.",
+    venues: ['Taj Devi Ratn', 'Mundota Fort & Palace']
   },
   {
     id: 'goa',
@@ -104,7 +106,8 @@ const DESTINATIONS = [
     categories: ['coastal'],
     vibe: 'Sunset Beach & Heritage',
     img: 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=80',
-    desc: "Golden sands, sunset beachfront pheras, private Portuguese estates, and vibrant multi-day coastal soirees."
+    desc: "Golden sands, sunset beachfront pheras, private Portuguese estates, and vibrant multi-day coastal soirees.",
+    venues: ['Taj Holiday Village', 'Grand Hyatt Goa', 'Gateway by Taj']
   },
   {
     id: 'kerala',
@@ -114,7 +117,8 @@ const DESTINATIONS = [
     categories: ['coastal'],
     vibe: 'Emerald Backwaters',
     img: 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80',
-    desc: "God's Own Country — tranquil palm-fringed backwaters, luxury tropical resorts, and lush, serene landscapes."
+    desc: "God's Own Country — tranquil palm-fringed backwaters, luxury tropical resorts, and lush, serene landscapes.",
+    venues: ['Grand Hyatt Kochi', 'Taj Bekal Resort & Spa']
   },
   {
     id: 'hyderabad',
@@ -122,9 +126,10 @@ const DESTINATIONS = [
     country: 'Telangana, India',
     region: 'india',
     categories: ['metro'],
-    vibe: 'Leonia Destination & Banquets',
+    vibe: 'Grand Resorts & Film City',
     img: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=800&q=80',
-    desc: "The City of Pearls — hosted grand guest hospitality, artist management, and turnkey logistics at Leonia Holistic Destination and royal venues."
+    desc: "The City of Pearls — hosted grand guest hospitality, artist management, and turnkey logistics across world-class properties.",
+    venues: ['Hilton Hyderabad', 'Ramoji Film City']
   },
   {
     id: 'bengaluru',
@@ -134,17 +139,19 @@ const DESTINATIONS = [
     categories: ['metro'],
     vibe: 'Garden Estates & Luxury',
     img: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80',
-    desc: "Silicon City — premier five-star luxury ballrooms, sprawling palace grounds, and bespoke metropolitan galas."
+    desc: "Silicon City — premier five-star luxury ballrooms, sprawling palace grounds, and bespoke metropolitan galas.",
+    venues: ['JW Marriott Prestige Golfshire']
   },
   {
     id: 'mumbai',
     name: 'Mumbai',
     country: 'Maharashtra, India',
     region: 'india',
-    categories: ['coastal'],
-    vibe: 'Seafront Glamour',
+    categories: ['coastal', 'metro'],
+    vibe: 'Seafront Glamour & Banquets',
     img: 'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=800&q=80',
-    desc: "India's cosmopolitan capital — iconic seafront hotels, grand heritage ballrooms, and high-profile private celebrations."
+    desc: "India's cosmopolitan capital — iconic seafront hotels, grand heritage ballrooms, and high-profile private celebrations.",
+    venues: ['The Taj Mahal Palace', 'Taj Lands End', 'Grand Hyatt Mumbai', 'The Westin Powai', 'Fairmont Mumbai', 'Sahara Star']
   },
   {
     id: 'rishikesh',
@@ -154,7 +161,8 @@ const DESTINATIONS = [
     categories: ['hills'],
     vibe: 'Sacred Himalayan Ganges',
     img: 'https://images.unsplash.com/photo-1600100397608-f010f443b793?auto=format&fit=crop&w=800&q=80',
-    desc: "Sacred Himalayan town on the holy Ganges — tranquil, spiritual, and intimate riverside wedding mandaps."
+    desc: "Sacred Himalayan town on the holy Ganges — tranquil, spiritual, and intimate riverside wedding mandaps.",
+    venues: ['The Westin Resort & Spa', 'Antalya Resort']
   },
   {
     id: 'mussoorie',
@@ -164,7 +172,8 @@ const DESTINATIONS = [
     categories: ['hills'],
     vibe: 'Misty Mountain Hills',
     img: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80',
-    desc: "Queen of the Hills — misty mountain panoramas, crisp highland weather, and colonial heritage manor venues."
+    desc: "Queen of the Hills — misty mountain panoramas, crisp highland weather, and colonial heritage manor venues.",
+    venues: ['JW Marriott Mussoorie Walnut Grove']
   },
   {
     id: 'surat',
@@ -172,19 +181,10 @@ const DESTINATIONS = [
     country: 'Gujarat, India',
     region: 'india',
     categories: ['metro'],
-    vibe: 'Opulent Banquets',
+    vibe: 'Opulent Luxury Banquets',
     img: 'https://images.unsplash.com/photo-1545232979-8bf68ee9b1af?auto=format&fit=crop&w=800&q=80',
-    desc: "Vibrant cultural hub of Gujarat — grand multi-day community celebrations, bespoke catering, and lavish setups."
-  },
-  {
-    id: 'ahmedabad',
-    name: 'Ahmedabad',
-    country: 'Gujarat, India',
-    region: 'india',
-    categories: ['palace'],
-    vibe: 'Heritage Lawns',
-    img: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80',
-    desc: "Cultural heart of Gujarat — sprawling farmhouse lawns, rich heritage architecture, and grand traditional weddings."
+    desc: "Vibrant cultural hub of Gujarat — grand multi-day community celebrations, bespoke catering, and lavish setups.",
+    venues: ['Le Méridien Surat', 'Avadh Utopia', 'Bhavanta Resort']
   },
   {
     id: 'coorg',
@@ -194,7 +194,8 @@ const DESTINATIONS = [
     categories: ['hills'],
     vibe: 'Coffee Plantation Retreats',
     img: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80',
-    desc: "The Scotland of India — lush private coffee estates, serene misty mornings, and intimate nature soirees."
+    desc: "The Scotland of India — lush private coffee estates, serene misty mornings, and intimate nature soirees.",
+    venues: ['Taj Madikeri Resort & Spa', 'Montrose Golf Resort & Spa', 'The Coorg Wilderness Resort & Spa']
   },
   {
     id: 'bidar',
@@ -204,10 +205,11 @@ const DESTINATIONS = [
     categories: ['palace'],
     vibe: 'Deccan Citadel Traditions',
     img: 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=800&q=80',
-    desc: "Historic Deccan citadel — rich cultural legacy, grand multi-day family celebrations, and customized hospitality."
+    desc: "Historic Deccan citadel — rich cultural legacy, grand multi-day family celebrations, and customized hospitality.",
+    venues: ['Heritage Fort Venues & Banquets']
   },
 
-  // International (3)
+  // International (4)
   {
     id: 'bahrain',
     name: 'Bahrain',
@@ -216,7 +218,8 @@ const DESTINATIONS = [
     categories: ['international'],
     vibe: 'Arabian Gulf Luxury',
     img: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80',
-    desc: "Arabian Gulf jewel — luxury five-star island resorts, beachfront banquets, and seamless cross-border NRI event production."
+    desc: "Arabian Gulf jewel — luxury five-star island resorts, beachfront banquets, and seamless cross-border NRI event production.",
+    venues: ['Royal Saray Resort', 'Four Seasons Bahrain Bay', 'The Gulf Hotel', 'Wyndham Grand', 'Wyndham Garden']
   },
   {
     id: 'thailand',
@@ -226,7 +229,8 @@ const DESTINATIONS = [
     categories: ['coastal', 'international'],
     vibe: 'Tropical Beachfront Buyouts',
     img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
-    desc: "Tropical paradise — Phuket & Hua Hin resort buyouts, turquoise oceanfront mandaps, and sunset celebration galas."
+    desc: "Tropical paradise — luxury resort buyouts, turquoise oceanfront mandaps, and sunset celebration galas.",
+    venues: ['JW Marriott Khao Lak Resort & Spa']
   },
   {
     id: 'nepal',
@@ -236,7 +240,19 @@ const DESTINATIONS = [
     categories: ['hills', 'international'],
     vibe: 'Himalayan Panoramas',
     img: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80',
-    desc: "Kathmandu valley heritage palaces, serene Himalayan mountain panoramas, and sacred wedding rituals."
+    desc: "Kathmandu valley heritage palaces, serene Himalayan mountain panoramas, and sacred wedding rituals.",
+    venues: ['Hyatt Regency Kathmandu', 'Kathmandu Marriott Hotel']
+  },
+  {
+    id: 'sri-lanka',
+    name: 'Sri Lanka',
+    country: 'Sri Lanka',
+    region: 'international',
+    categories: ['coastal', 'international'],
+    vibe: 'Oceanfront Luxury Resorts',
+    img: 'https://images.unsplash.com/photo-1546708973-b339540b5162?auto=format&fit=crop&w=800&q=80',
+    desc: "Pearl of the Indian Ocean — tranquil beachfront lagoons, colonial heritage ballrooms, and oceanfront sunset mandaps.",
+    venues: ['Taj Samudra Colombo', 'Anantara Kalutara Resort']
   }
 ];
 
@@ -274,6 +290,14 @@ const DESTINATIONS = [
             <span class="dest-card-vibe">${d.country}</span>
           </div>
           <p class="dest-card-desc">${d.desc}</p>
+          ${d.venues && d.venues.length ? `
+            <div class="dest-card-venues">
+              <span class="venues-label">Featured Venues:</span>
+              <div class="venues-tags">
+                ${d.venues.map(v => `<span class="venue-tag">${v}</span>`).join('')}
+              </div>
+            </div>
+          ` : ''}
           <a href="#contact" class="dest-card-action" data-dest="${d.name}" aria-label="Plan your event in ${d.name}">
             <span>Inquire For This Destination</span>
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

@@ -1023,6 +1023,47 @@ input, select, textarea { font-family: inherit; }
   flex-grow: 1;
 }
 
+.dest-card-venues {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(198, 157, 89, 0.28);
+}
+
+.venues-label {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.venues-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.venue-tag {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--brand-deep);
+  background: rgba(184, 138, 68, 0.08);
+  border: 1px solid rgba(184, 138, 68, 0.25);
+  border-radius: var(--r-full);
+  padding: 3px 9px;
+  line-height: 1.35;
+  transition: all var(--t-fast);
+}
+
+.dest-card:hover .venue-tag {
+  background: rgba(184, 138, 68, 0.15);
+  border-color: rgba(184, 138, 68, 0.45);
+}
+
 .dest-card-action {
   display: flex;
   align-items: center;
