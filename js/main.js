@@ -83,7 +83,7 @@ const DESTINATIONS = [
     region: 'india',
     categories: ['palace'],
     vibe: 'Royal Lake Palaces',
-    img: 'https://images.unsplash.com/photo-1596178065887-1198b6148b2b?auto=format&fit=crop&w=800&q=80',
+    img: 'https://images.unsplash.com/photo-1703092289078-ff03b771237c?auto=format&fit=crop&w=800&q=80',
     desc: "The City of Lakes — regal lakeside mandaps, majestic palace courtyards, and timeless Rajput hospitality.",
     venues: ['The Oberoi Udaivilas', 'Mementos by ITC Hotels']
   },
@@ -94,7 +94,7 @@ const DESTINATIONS = [
     region: 'india',
     categories: ['palace'],
     vibe: 'Forts & Royal Havelis',
-    img: 'https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80',
+    img: 'https://images.unsplash.com/photo-1670570586106-c1bc75d94b46?auto=format&fit=crop&w=800&q=80',
     desc: "The Pink City — opulent fort courtyards, heritage havelis, and grand celebrations steeped in royal Rajasthani pageantry.",
     venues: ['Taj Devi Ratn', 'Mundota Fort & Palace']
   },
@@ -105,7 +105,7 @@ const DESTINATIONS = [
     region: 'india',
     categories: ['coastal'],
     vibe: 'Sunset Beach & Heritage',
-    img: 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=80',
+    img: 'https://images.unsplash.com/photo-1695411560235-595738c0dbda?auto=format&fit=crop&w=800&q=80',
     desc: "Golden sands, sunset beachfront pheras, private Portuguese estates, and vibrant multi-day coastal soirees.",
     venues: ['Taj Holiday Village', 'Grand Hyatt Goa', 'Gateway by Taj']
   },
@@ -116,7 +116,7 @@ const DESTINATIONS = [
     region: 'india',
     categories: ['coastal'],
     vibe: 'Emerald Backwaters',
-    img: 'https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80',
+    img: 'https://images.unsplash.com/photo-1593693411515-c20261bcad6e?auto=format&fit=crop&w=800&q=80',
     desc: "God's Own Country — tranquil palm-fringed backwaters, luxury tropical resorts, and lush, serene landscapes.",
     venues: ['Grand Hyatt Kochi', 'Taj Bekal Resort & Spa']
   },
@@ -127,7 +127,7 @@ const DESTINATIONS = [
     region: 'india',
     categories: ['metro'],
     vibe: 'Grand Resorts & Film City',
-    img: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=800&q=80',
+    img: 'https://images.unsplash.com/photo-1560237606-f82b6cb1ebbf?auto=format&fit=crop&w=800&q=80',
     desc: "The City of Pearls — hosted grand guest hospitality, artist management, and turnkey logistics across world-class properties.",
     venues: ['Hilton Hyderabad', 'Ramoji Film City']
   },
@@ -138,7 +138,7 @@ const DESTINATIONS = [
     region: 'india',
     categories: ['metro'],
     vibe: 'Garden Estates & Luxury',
-    img: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80',
+    img: 'https://images.unsplash.com/photo-1672828792610-c336e7db6646?auto=format&fit=crop&w=800&q=80',
     desc: "Silicon City — premier five-star luxury ballrooms, sprawling palace grounds, and bespoke metropolitan galas.",
     venues: ['JW Marriott Prestige Golfshire']
   },
@@ -149,7 +149,7 @@ const DESTINATIONS = [
     region: 'india',
     categories: ['coastal', 'metro'],
     vibe: 'Seafront Glamour & Banquets',
-    img: 'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=800&q=80',
+    img: 'https://images.unsplash.com/photo-1781636582616-cbc208ad57d3?auto=format&fit=crop&w=800&q=80',
     desc: "India's cosmopolitan capital — iconic seafront hotels, grand heritage ballrooms, and high-profile private celebrations.",
     venues: ['The Taj Mahal Palace', 'Taj Lands End', 'Grand Hyatt Mumbai', 'The Westin Powai', 'Fairmont Mumbai', 'Sahara Star']
   },
@@ -160,7 +160,7 @@ const DESTINATIONS = [
     region: 'india',
     categories: ['hills'],
     vibe: 'Sacred Himalayan Ganges',
-    img: 'https://images.unsplash.com/photo-1600100397608-f010f443b793?auto=format&fit=crop&w=800&q=80',
+    img: 'https://images.unsplash.com/photo-1598609970679-53239f2ede82?auto=format&fit=crop&w=800&q=80',
     desc: "Sacred Himalayan town on the holy Ganges — tranquil, spiritual, and intimate riverside wedding mandaps.",
     venues: ['The Westin Resort & Spa', 'Antalya Resort']
   },
@@ -171,7 +171,7 @@ const DESTINATIONS = [
     region: 'india',
     categories: ['hills'],
     vibe: 'Misty Mountain Hills',
-    img: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80',
+    img: 'https://images.unsplash.com/photo-1651307110965-8340722facc0?auto=format&fit=crop&w=800&q=80',
     desc: "Queen of the Hills — misty mountain panoramas, crisp highland weather, and colonial heritage manor venues.",
     venues: ['JW Marriott Mussoorie Walnut Grove']
   },
@@ -182,7 +182,7 @@ const DESTINATIONS = [
     region: 'india',
     categories: ['metro'],
     vibe: 'Opulent Luxury Banquets',
-    img: 'https://images.unsplash.com/photo-1545232979-8bf68ee9b1af?auto=format&fit=crop&w=800&q=80',
+    img: 'https://images.unsplash.com/photo-1587271407850-8d438ca9fdf2?auto=format&fit=crop&w=800&q=80',
     desc: "Vibrant cultural hub of Gujarat — grand multi-day community celebrations, bespoke catering, and lavish setups.",
     venues: ['Le Méridien Surat', 'Avadh Utopia', 'Bhavanta Resort']
   },
@@ -193,7 +193,7 @@ const DESTINATIONS = [
     region: 'india',
     categories: ['hills'],
     vibe: 'Coffee Plantation Retreats',
-    img: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80',
+    img: 'https://images.unsplash.com/photo-1756825676966-93efb43d2b81?auto=format&fit=crop&w=800&q=80',
     desc: "The Scotland of India — lush private coffee estates, serene misty mornings, and intimate nature soirees.",
     venues: ['Taj Madikeri Resort & Spa', 'Montrose Golf Resort & Spa', 'The Coorg Wilderness Resort & Spa']
   },
@@ -204,7 +204,7 @@ const DESTINATIONS = [
     region: 'india',
     categories: ['palace'],
     vibe: 'Deccan Citadel Traditions',
-    img: 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?auto=format&fit=crop&w=800&q=80',
+    img: 'https://images.unsplash.com/photo-1793133482705-4cf112a56b92?auto=format&fit=crop&w=800&q=80',
     desc: "Historic Deccan citadel — rich cultural legacy, grand multi-day family celebrations, and customized hospitality.",
     venues: ['Heritage Fort Venues & Banquets']
   },
@@ -217,7 +217,7 @@ const DESTINATIONS = [
     region: 'international',
     categories: ['international'],
     vibe: 'Arabian Gulf Luxury',
-    img: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80',
+    img: 'https://images.unsplash.com/photo-1748066768504-99532da7d1e9?auto=format&fit=crop&w=800&q=80',
     desc: "Arabian Gulf jewel — luxury five-star island resorts, beachfront banquets, and seamless cross-border NRI event production.",
     venues: ['Royal Saray Resort', 'Four Seasons Bahrain Bay', 'The Gulf Hotel', 'Wyndham Grand', 'Wyndham Garden']
   },
@@ -228,7 +228,7 @@ const DESTINATIONS = [
     region: 'international',
     categories: ['coastal', 'international'],
     vibe: 'Tropical Beachfront Buyouts',
-    img: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80',
+    img: 'https://images.unsplash.com/photo-1786511905202-4bed727d9b0d?auto=format&fit=crop&w=800&q=80',
     desc: "Tropical paradise — luxury resort buyouts, turquoise oceanfront mandaps, and sunset celebration galas.",
     venues: ['JW Marriott Khao Lak Resort & Spa']
   },
@@ -239,7 +239,7 @@ const DESTINATIONS = [
     region: 'international',
     categories: ['hills', 'international'],
     vibe: 'Himalayan Panoramas',
-    img: 'https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80',
+    img: 'https://images.unsplash.com/photo-1611516491426-03025e6043c8?auto=format&fit=crop&w=800&q=80',
     desc: "Kathmandu valley heritage palaces, serene Himalayan mountain panoramas, and sacred wedding rituals.",
     venues: ['Hyatt Regency Kathmandu', 'Kathmandu Marriott Hotel']
   },
@@ -250,7 +250,7 @@ const DESTINATIONS = [
     region: 'international',
     categories: ['coastal', 'international'],
     vibe: 'Oceanfront Luxury Resorts',
-    img: 'https://images.unsplash.com/photo-1546708973-b339540b5162?auto=format&fit=crop&w=800&q=80',
+    img: 'https://images.unsplash.com/photo-1783254887950-fc17bd0e8574?auto=format&fit=crop&w=800&q=80',
     desc: "Pearl of the Indian Ocean — tranquil beachfront lagoons, colonial heritage ballrooms, and oceanfront sunset mandaps.",
     venues: ['Taj Samudra Colombo', 'Anantara Kalutara Resort']
   }
