@@ -286,18 +286,13 @@ input, select, textarea { font-family: inherit; }
   width: auto;
   max-width: 200px;
   object-fit: contain;
-  background: #ffffff;
-  padding: 4px 10px;
   border-radius: 6px;
-  border: 1px solid rgba(184, 138, 68, 0.35);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
   display: block;
-  transition: transform var(--t-fast), box-shadow var(--t-fast);
+  transition: transform var(--t-fast);
 }
 
 .brand-logo:hover .brand-logo-img {
   transform: scale(1.02);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
 }
 
 .brand-logo {
@@ -481,7 +476,6 @@ input, select, textarea { font-family: inherit; }
   }
   .brand-logo-img {
     height: 36px;
-    padding: 3px 8px;
   }
   .site-header .btn-primary {
     padding: 7px 12px;
