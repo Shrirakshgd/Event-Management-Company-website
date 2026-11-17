@@ -1114,22 +1114,30 @@ input, select, textarea { font-family: inherit; }
 .story-media {
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
 
-/* Portrait placeholder */
+/* Portrait Frame & Floating Glass Plaque */
+.founder-portrait-wrap {
+  position: relative;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: 0 18px 45px -12px rgba(44, 24, 16, 0.16);
+  border: 1px solid rgba(198, 157, 89, 0.35);
+  background: var(--gold-pale);
+}
+
 .founder-portrait-placeholder {
   aspect-ratio: 3/4;
   background: var(--gold-pale);
-  border: 1px solid var(--border-medium);
-  border-radius: var(--r-lg);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 20px;
   text-align: center;
-  padding: 32px;
+  padding: 32px 32px 105px;
+  border: none;
+  border-radius: 0;
 }
 
 .founder-portrait-placeholder svg {
@@ -1144,29 +1152,98 @@ input, select, textarea { font-family: inherit; }
   line-height: 1.5;
 }
 
-.founder-name-card {
-  background: var(--walnut);
-  border-radius: var(--r-md);
-  padding: 16px 20px;
+/* Floating Frosted-Glass Card */
+.founder-floating-card {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  background: linear-gradient(135deg, rgba(61, 28, 20, 0.88), rgba(38, 16, 12, 0.82));
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(198, 157, 89, 0.45);
+  border-radius: 14px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 12px 30px rgba(28, 12, 8, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transition: transform var(--t-fast), border-color var(--t-fast), box-shadow var(--t-fast);
+}
+
+.founder-portrait-wrap:hover .founder-floating-card {
+  transform: translateY(-2px);
+  border-color: rgba(198, 157, 89, 0.65);
+  box-shadow: 0 16px 36px rgba(28, 12, 8, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.founder-card-content {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
 .founder-label {
+  font-family: var(--font-sans);
   font-size: 0.65rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--gold);
 }
 
-.founder-name-placeholder {
+.founder-name {
   font-family: var(--font-serif);
-  font-size: 1.2rem;
-  font-weight: 500;
-  color: var(--ivory);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #FFFFFF;
   font-style: italic;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+}
+
+.founder-card-seal {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(198, 157, 89, 0.12);
+  border: 1px solid rgba(198, 157, 89, 0.35);
+  padding: 2px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.founder-seal-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+@media (max-width: 420px) {
+  .founder-floating-card {
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    padding: 12px 14px;
+  }
+  .founder-name {
+    font-size: 1.2rem;
+  }
+  .founder-card-seal {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+/* Legacy fallback */
+.founder-name-card {
+  display: none;
 }
 
 /* Story content */
@@ -1184,6 +1261,27 @@ input, select, textarea { font-family: inherit; }
   font-style: italic;
   color: var(--walnut);
   line-height: 1.65;
+}
+
+.founder-quote-author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-style: normal;
+  font-weight: 600;
+  color: var(--walnut);
+  margin-top: 10px;
+}
+
+.founder-quote-author span {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
 }
 
 .story-paragraphs p {
